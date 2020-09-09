@@ -1,9 +1,44 @@
-name: I6B6M6
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@Luxmm 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+CCChieh
+/
+IBMYes
+64
+1.6k14.1k
+Code
+Issues
+69
+Pull requests
+81
+Actions
+Projects
+Wiki
+Security
+Insights
+IBMYes/.github/workflows/ibm.yml
+@CCChieh
+CCChieh 修改镜像
+Latest commit 8ee1dac 4 days ago
+ History
+ 2 contributors
+@CCChieh@hiiragiyuriko
+42 lines (37 sloc)  1017 Bytes
+  
+name: IBM Cloud Auto Restart
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
   schedule:
     - cron: '0 12 * * FRI'
@@ -12,13 +47,13 @@ jobs:
   ibm-cloud-restart:
     runs-on: ubuntu-latest
 
-
     steps:
     - uses: actions/checkout@v2
 
     - name: Init
       run: |
         chmod -R 777 ./IBM_Cloud_CLI/
+        ./IBM_Cloud_CLI/ibmcloud config --check-version=false
     - name: Login IBM Cloud
       env:
         IBM_ACCOUNT: ${{ secrets.IBM_ACCOUNT }}
@@ -35,7 +70,7 @@ jobs:
       run: |
         ./IBM_Cloud_CLI/ibmcloud target -g "$RESOURSE_ID"
         ./IBM_Cloud_CLI/ibmcloud target --cf
-        ./IBM_Cloud_CLI/ibmcloud cf install
+        ./IBM_Cloud_CLI/ibmcloud cf install -f -v 6.15.0
     - name: Restart IBM Cloud
       env:
         IBM_APP_NAME: ${{ secrets.IBM_APP_NAME }}
